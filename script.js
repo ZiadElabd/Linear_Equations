@@ -108,6 +108,31 @@ function gauss_elimination_with_pivoting(equationArray,vec){
 
     // return the solution
     return solution ;
+}
+
+function gauss_gordan(equationArray,vec){
+
+     // forward elimination
+     for (var i=0;i<equationArray.length;i++){
+        for (var j=0;j<equationArray.length;j++){
+            if(i==j)
+                continue ;
+            const factor = -1 * equationArray[j][i] / equationArray[i][i] ; 
+            for (var k=i;k<equationArray.length;k++)
+                equationArray[j][k] += equationArray[i][k] * factor ; 
+            vec[j] += vec[i] * factor ; 
+        } 
+    } 
+    
+        // find the solution --> backward substitution
+        const n = equationArray.length-1 ;
+        var solution = [] ;
+        for (var i=n;i>=0;i--)
+            solution[i] = vec[i] / equationArray[i][i];
+        
+        return solution ; 
 
 }
+
+console.log(gauss_elimination_with_pivoting(arr,vec));
 
