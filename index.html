@@ -1,11 +1,48 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link href="style.css" rel="stylesheet" />
-        <meta charset="UTF-8" />
-        <title>Equations Solver</title>
-    </head>
-    <body>
-        <script src="script.js"></script>
-    </body>
+
+<head>
+    <link href="style.css" rel="stylesheet" />
+    <meta charset="UTF-8" />
+    <title>Equations Solver</title>
+</head>
+
+<body>
+    <script src="script.js"></script>
+    <div id="app">
+        <h1>Methods Calculator</h1>
+        <div id="head">
+            <label for="size">Enter your Equations size:</label>
+            <input type="text" id="size" name="size">
+        </div>
+        <div id="input">
+            <label for="eqauation">Enter your Equations:</label>
+            <textarea id="inputEquation" rows="2" cols="30" name="equation"></textarea>
+            <select name="methods" id="methods">
+            <option value="Gauss Elimination">Gauss Elimination</option>
+            <option value="Gauss Elimination using pivoting.">Gauss Elimination using pivoting</option>
+            <option value="Gauss Jordan.">Gauss Jordan</option>
+            <option value="LU Decomposition">LU Decomposition</option>
+            <option value="Gauss Seidil">Gauss Seidil</option>
+            <option value="Jacobi Iteration">Jacobi Iteration</option>
+          </select>
+        </div>
+        <div id="extra">
+            <label for="menu">Enter your Stop condition if needed:</label>
+            <select name="menu" id="extraMenu">
+            <option value="Number of Iteration">Number of Iteration</option>
+            <option value="Absolute Relative Error">Absolute Relative Error</option>
+          </select>
+            <input type="text" id="inputCondition" name="menu">
+        </div>
+        <div>
+            <button id="btn">Slove</button>
+        </div>
+        <div id="result">
+            <label for="resilt">Result</label>
+            <input type="text" id="result" name="result">
+        </div>
+    </div>
+</body>
+
 </html>
