@@ -11,26 +11,26 @@ function swap(arr, ai, aj, bi, bj) {
     arr[ai][aj] = temp;
 }
 
-arr = create2Darray(4);
+// arr = create2Darray(4);
 
-arr[0][0] = 4; //[[4,6,2,-2], [2,0,5,-2] , [-4,-3,-5,4],[8,18,-2,3]]
-arr[0][1] = 6;
-arr[0][2] = 2;
-arr[0][3] = -2;
-arr[1][0] = 2;
-arr[1][1] = 6;
-arr[1][2] = 5;
-arr[1][3] = 2;
-arr[2][0] = -4;
-arr[2][1] = -3;
-arr[2][2] = -5;
-arr[2][3] = 4;
-arr[3][0] = 8;
-arr[3][1] = 18;
-arr[3][2] = -2;
-arr[3][3] = 3;
+// arr[0][0] = 4; //[[4,6,2,-2], [2,0,5,-2] , [-4,-3,-5,4],[8,18,-2,3]]
+// arr[0][1] = 6;
+// arr[0][2] = 2;
+// arr[0][3] = -2;
+// arr[1][0] = 2;
+// arr[1][1] = 6;
+// arr[1][2] = 5;
+// arr[1][3] = 2;
+// arr[2][0] = -4;
+// arr[2][1] = -3;
+// arr[2][2] = -5;
+// arr[2][3] = 4;
+// arr[3][0] = 8;
+// arr[3][1] = 18;
+// arr[3][2] = -2;
+// arr[3][3] = 3;
 
-var vec = [8, 4, 1, 40];
+// var vec = [8, 4, 1, 40];
 
 function gauss_elimination(equationArray, vec) {
 
@@ -135,6 +135,113 @@ function gauss_gordan(equationArray, vec) {
 
 }
 
+function Identity_matrix(rows) {
+    var arr = Array(rows).fill(0).map(x => Array(rows).fill(0))
+    for(var i=0;i<rows;i++){
+        arr[i][i] = 1 ;
+    }
+    return arr;
+}
+
+function downlittle_LU(equationArray, vec) {
+    var L = Identity_matrix(equationArray.length);
+
+    for (var i = 0; i < equationArray.length - 1; i++) {
+
+        for (var j = i + 1; j < equationArray.length; j++) {
+            const factor = -1 * equationArray[j][i] / equationArray[i][i];
+            for (var k = i; k < equationArray.length; k++)
+                equationArray[j][k] += equationArray[i][k] * factor;
+            L[j][i] = -1 * factor;
+        }
+    }
+    console.log(L);
+    console.log(equationArray);
+    console.log(vec);
+    var y = forward_substitution(L,vec);
+    console.log(y);
+
+    return backward_substitution(equationArray,y);
+
+}
+
+function cholesky_LU(equationArray,vec){
+    var n = equationArray.length;
+    var L = Array(n).fill(0).map(x => Array(n).fill(0));
+
+    for(var i=0 ;i<n ; i++){
+        for(var j=0 ; j<=i;j++){
+            let sum = 0;
+            if(i==j){
+                for(var k=0;k<j;k++)
+                    sum += Math.pow(L[j][k] , 2);
+                L[j][j] = Math.sqrt(equationArray[j][j]-sum);
+            }else{
+                for(var k=0;k<j;k++)
+                    sum += (L[i][k]*L[j][k])
+                L[i][j] = (equationArray[i][j]-sum)/L[j][j]; 
+            }
+        }
+    }
+    console.log(L);
+    var y = forward_substitution(L,vec);
+    console.log(backward_substitution(transpose(L),y));
+}
+
+function forward_substitution(equationArray,vec){
+    const n = equationArray.length ;
+    var solution = [];
+    solution[0] = vec[0] / equationArray[0][0];
+    for (var i = 0; i < n; i++) {
+        let sum = 0;
+        for (var j = 0; j < i; j++)
+            sum += equationArray[i][j] * solution[j];
+        solution[i] = (vec[i] - sum) / equationArray[i][i];
+    }
+    return solution;
+}
+
+function backward_substitution(equationArray,vec){
+    const n = equationArray.length - 1;
+    var solution = [];
+    solution[n] = vec[n] / equationArray[n][n];
+    for (var i = n - 1; i >= 0; i--) {
+        let sum = 0;
+        for (var j = i + 1; j <= n; j++)
+            sum += equationArray[i][j] * solution[j];
+        solution[i] = (vec[i] - sum) / equationArray[i][i];
+    }
+    return solution;
+}
+
+function transpose(matrix){
+    const n = matrix.length;
+    var solution = create2Darray(n);
+    for(var i=0;i<n;i++){
+        for(var j=0;j<n;j++){
+            solution[i][j] = matrix[j][i];
+        }
+    }
+    return solution;
+}
+
+
+arr = create2Darray(3);
+
+arr[0][0] = 6; 
+arr[0][1] = 15;
+arr[0][2] = 55;
+arr[1][0] = 15;
+arr[1][1] = 55;
+arr[1][2] = 255;
+arr[2][0] = 55;
+arr[2][1] = 225;
+arr[2][2] = 979;
+
+var vec = [100,100,200];
+cholesky_LU(arr,vec);
+
+//downlittle_LU(arr,vec);
 //console.log(gauss_elimination_with_pivoting(arr,vec));
 
 
@@ -226,17 +333,17 @@ function Jacobi_IterationError(equationArray, equations_value, max_degree, stopC
     }
 }
 
-var arrtest = create2Darray(3);
-arrtest[0][0] = 12; //[[4,6,2,-2], [2,0,5,-2] , [-4,-3,-5,4],[8,18,-2,3]]
-arrtest[0][1] = 3;
-arrtest[0][2] = -5;;
-arrtest[1][0] = 1;
-arrtest[1][1] = 5;
-arrtest[1][2] = 3;
-arrtest[2][0] = 3;
-arrtest[2][1] = 7;
-arrtest[2][2] = 13;
-var vectest = [1, 28, 76];
+// var arrtest = create2Darray(3);
+// arrtest[0][0] = 12; //[[4,6,2,-2], [2,0,5,-2] , [-4,-3,-5,4],[8,18,-2,3]]
+// arrtest[0][1] = 3;
+// arrtest[0][2] = -5;;
+// arrtest[1][0] = 1;
+// arrtest[1][1] = 5;
+// arrtest[1][2] = 3;
+// arrtest[2][0] = 3;
+// arrtest[2][1] = 7;
+// arrtest[2][2] = 13;
+// var vectest = [1, 28, 76];
 
-Jacobi_IterationError(arrtest, vectest, 3, 0.5);
+// Jacobi_IterationError(arrtest, vectest, 3, 0.5);
 //gauss_seidel(arr,vec,4,1);
