@@ -239,7 +239,7 @@ arr[2][1] = 225;
 arr[2][2] = 979;
 
 var vec = [100,100,200];
-cholesky_LU(arr,vec);
+//cholesky_LU(arr,vec);
 
 //downlittle_LU(arr,vec);
 //console.log(gauss_elimination_with_pivoting(arr,vec));
@@ -266,6 +266,50 @@ function gauss_seidel(equation_factors, equations_value, max_degree, number_of_i
             console.log(initial_x);
         }
         number_of_iters--;
+    }
+
+
+}
+
+
+function gauss_seidelٌٌُُError(equation_factors, equations_value, max_degree, stopCondition) {
+
+    var initial_x = [],
+        results = [],
+        newIteration = true;
+    for (var i = 0; i < max_degree; i++) initial_x[i] = 1;
+    var last = initial_x.slice(0);
+    while (newIteration) {
+        for (var first_iterator = 0; first_iterator < max_degree; first_iterator++) {
+            results[first_iterator] = (equations_value[first_iterator] / equation_factors[first_iterator][first_iterator]);
+            // console.log( results[first_iterator])
+            for (var second_iterator = 0; second_iterator < max_degree; second_iterator++) {
+                if (second_iterator == first_iterator) // not for diagonals
+                    continue;
+                // the real deal happens below
+                results[first_iterator] = results[first_iterator] - ((equation_factors[first_iterator][second_iterator] / equation_factors[first_iterator][first_iterator]) * initial_x[second_iterator]);
+                //console.log( results[first_iterator])
+
+            }
+            initial_x[first_iterator] = results[first_iterator];
+           // console.log(initial_x);
+        }
+        // calculating the relative error and decide to make new iteration or not
+        console.log(initial_x);
+        console.log(last);
+        for (var i = 0; i < max_degree; i++) {
+            var relativeError = (Math.abs((initial_x[i] - last[i]) / initial_x[i])) * 100;
+            if (relativeError > stopCondition) {
+                newIteration = true;
+                break;
+            } else {
+                newIteration = false;
+            }
+        }
+
+        last = initial_x.slice(0);
+
+
     }
 
 
@@ -333,17 +377,18 @@ function Jacobi_IterationError(equationArray, equations_value, max_degree, stopC
     }
 }
 
-// var arrtest = create2Darray(3);
-// arrtest[0][0] = 12; //[[4,6,2,-2], [2,0,5,-2] , [-4,-3,-5,4],[8,18,-2,3]]
-// arrtest[0][1] = 3;
-// arrtest[0][2] = -5;;
-// arrtest[1][0] = 1;
-// arrtest[1][1] = 5;
-// arrtest[1][2] = 3;
-// arrtest[2][0] = 3;
-// arrtest[2][1] = 7;
-// arrtest[2][2] = 13;
-// var vectest = [1, 28, 76];
+ var arrtest = create2Darray(3);
+ arrtest[0][0] = 12; //[[4,6,2,-2], [2,0,5,-2] , [-4,-3,-5,4],[8,18,-2,3]]
+ arrtest[0][1] = 3;
+ arrtest[0][2] = -5;;
+ arrtest[1][0] = 1;
+ arrtest[1][1] = 5;
+ arrtest[1][2] = 3;
+ arrtest[2][0] = 3;
+ arrtest[2][1] = 7;
+ arrtest[2][2] = 13;
 
+ var vectest = [1, 28, 76];
+//gauss_seidelٌٌُُError(arrtest, vectest, 3, 0.5)
 // Jacobi_IterationError(arrtest, vectest, 3, 0.5);
 //gauss_seidel(arr,vec,4,1);
