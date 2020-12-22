@@ -8,7 +8,7 @@ body {
     height: 100%;
     padding: 0;
     margin: 0;
-    min-height: 600px;
+    min-height: 700px;
 }
 
 #app {
@@ -20,22 +20,60 @@ body {
     padding: 10px;
     border-radius: 10px;
     /*flex*/
-    opacity: 0.9;
+    opacity: 0.97;
     display: grid;
-    position: fixed;
+    grid-template-rows: auto auto auto auto auto auto auto;
+}
+
+#title {
+    text-align: center;
 }
 
 h1 {
     color: #000;
     font-family: cursive;
-    align-content: center;
+}
+
+#input {
+    display: flex;
+    grid-auto-columns: auto;
+    grid-column-gap: 20px;
 }
 
 #inputEquation {
+    width: 250px;
+    height: 50px;
     resize: vertical;
 }
 
-#btn {
-    align-items: center;
-    align-content: center;
+#textbtn {
+    margin-left: 280px;
+    width: 100px;
+    height: 30px;
+}
+
+#methods {
+    width: 200px;
+    height: 20px;
+}
+
+#solvebtn {
+    margin-left: 280px;
+    width: 100px;
+    height: 30px;
+    justify-items: center;
+}
+
+#result {
+    display: flex;
+    grid-auto-columns: auto;
+    grid-column-gap: 20px;
+    justify-items: center;
+    justify-content: center;
+}
+
+#resultbox {
+    width: 250px;
+    height: 50px;
+    resize: vertical;
 }

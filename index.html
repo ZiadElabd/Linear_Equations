@@ -10,7 +10,9 @@
 <body>
     <script src="script.js"></script>
     <div id="app">
-        <h1>Methods Calculator</h1>
+        <div id="title">
+            <h1>Methods Calculator</h1>
+        </div>
         <div id="head">
             <label for="size">Enter your Equations size:</label>
             <input type="text" id="size" name="size">
@@ -25,7 +27,11 @@
             <option value="LU Decomposition">LU Decomposition</option>
             <option value="Gauss Seidil">Gauss Seidil</option>
             <option value="Jacobi Iteration">Jacobi Iteration</option>
-          </select>
+            </select>
+        </div>
+        <div id="readFile">
+            <button id="textbtn">Read from file</button>
+
         </div>
         <div id="extra">
             <label for="menu">Enter your Stop condition if needed:</label>
@@ -36,11 +42,11 @@
             <input type="text" id="inputCondition" name="menu">
         </div>
         <div>
-            <button id="btn">Slove</button>
+            <button id="solvebtn" onclick="handleSolveClicked()">Slove</button>
         </div>
         <div id="result">
-            <label for="resilt">Result</label>
-            <input type="text" id="result" name="result">
+            <label for="result" style="font-size: xx-large;">Result</label>
+            <textarea id="resultbox" rows="2" cols="30" name="result"></textarea>
         </div>
     </div>
 </body>

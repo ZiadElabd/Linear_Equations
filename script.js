@@ -385,7 +385,7 @@ function handleSolveClicked() {
     var stopType = document.getElementById("extraMenu").value;
     var stopValue = document.getElementById("inputCondition").value;
     console.log(martrixString[0], martrixString[1])
-        //console.log(getEquationArray(martrixString, size));
+    console.log(getEquationArray(martrixString, size));
 
 }
 
@@ -393,7 +393,7 @@ function getEquationArray(martrixString, size) {
     var equationMatrix = create2Darray(size);
     for (var i = 0; i < size; i++) {
         for (var j = 0; j < martrixString[0].length - 1; i++) {
-            equationMatrix[i][j] = martrixString[i].next;
+
         }
     }
     return equationMatrix;
