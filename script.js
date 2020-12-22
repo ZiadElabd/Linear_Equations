@@ -338,7 +338,7 @@ function Jacobi_IterationNum(equationArray, equations_value, max_degree, number_
         //set the initial to the new valuse from the iteration
         initial_x = newGuess_x.slice(0);
         number_of_iters--;
-        console.log(newGuess_x);
+        document.getElementById('resultbox').innerHTML = newGuess_x;
     }
 }
 
@@ -347,6 +347,7 @@ function Jacobi_IterationError(equationArray, equations_value, max_degree, stopC
     var newGuess_x = [];
     var temp = 0;
     var newIteration = true;
+    var result = create2Darray(size);
     for (var i = 0; i < max_degree; i++) initial_x[i] = 1;
     //loop for number of iterations
     while (newIteration) {
@@ -373,28 +374,47 @@ function Jacobi_IterationError(equationArray, equations_value, max_degree, stopC
             }
         }
         initial_x = newGuess_x.slice(0);
-        console.log(newGuess_x);
+        result.push(initial_x);
     }
+    return result;
 }
 
 function handleSolveClicked() {
     var size = parseInt(document.getElementById("size").value);
-    var temp = size + 1;
     var martrixString = document.getElementById("inputEquation").value.split('\n');
     var methodType = document.getElementById("methods").value;
     var stopType = document.getElementById("extraMenu").value;
     var stopValue = document.getElementById("inputCondition").value;
-    console.log(martrixString[0], martrixString[1])
-    console.log(getEquationArray(martrixString, size));
+    var equationArray = create2Darray(size);
+    var equations_value = create2Darray(1);
+    equationArray = getEquationArray(martrixString, size);
+    equations_value = getEquationValues(martrixString, size);
+    if (methodType == "Jacobi Iteration") {
+        if (stopType = "Absolute Relative Error") {
+            document.getElementById('resultbox').innerHTML = Jacobi_IterationError(equationArray, equations_value, size, stopValue);
+        }
+        console.log(getEquationArray(martrixString, size));
+        console.log(getEquationValues(martrixString, size));
 
+    }
 }
 
 function getEquationArray(martrixString, size) {
     var equationMatrix = create2Darray(size);
     for (var i = 0; i < size; i++) {
-        for (var j = 0; j < martrixString[0].length - 1; i++) {
-
+        var num = martrixString[i].split(' ');
+        for (var j = 0; j < size; j++) {
+            equationMatrix[i][j] = parseFloat(num[j]);
         }
     }
     return equationMatrix;
+}
+
+function getEquationValues(martrixString, size) {
+    var equationValues = create2Darray(1);
+    for (var i = 0; i < size; i++) {
+        var num = martrixString[i].split(' ');
+        equationValues[i] = parseFloat(num[size]);
+    }
+    return equationValues;
 }
