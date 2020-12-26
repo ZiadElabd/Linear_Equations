@@ -228,15 +228,10 @@ function transpose(matrix) {
 
 arr = create2Darray(3);
 
-arr[0][0] = 6;
+arr[0][0] = 6.777777777777777;
 arr[0][1] = 15;
 arr[0][2] = 55;
-arr[1][0] = 15;
-arr[1][1] = 55;
-arr[1][2] = 255;
-arr[2][0] = 55;
-arr[2][1] = 225;
-arr[2][2] = 979;
+arr[0][3] = 767;
 
 var vec = [100, 100, 200];
 //cholesky_LU(arr,vec);
@@ -418,3 +413,42 @@ function getEquationValues(martrixString, size) {
     }
     return equationValues;
 }
+
+function createTable(matrix ,size){
+    var x = document.getElementById('results');
+    var table = document.createElement('table');
+    for (var i=0 ;i<size ;i++)
+    {
+        var row = document.createElement('tr');
+        for (var j=0 ;j<size ;j++)
+        {
+            var td = document.createElement('td');
+            var value = document.createTextNode(parseFloat(matrix[i][j]).toFixed(3));
+            td.appendChild(value);
+            row.appendChild(td);
+        }
+        table.appendChild(row) ;
+    }
+    x.appendChild(table);
+}
+
+function createOneRowInTable(matrix,size){
+    var x = document.getElementById('results');
+    var table = document.createElement('table');
+    var row = document.createElement('tr');
+    for (var j=0 ;j<size ;j++)
+        {
+            var td = document.createElement('td');
+            var value = document.createTextNode(parseFloat(matrix[0][j]).toFixed(3));
+            td.appendChild(value);
+            row.appendChild(td);
+        }
+    table.appendChild(row) ;
+    x.appendChild(table);
+}
+
+
+
+
+
+
