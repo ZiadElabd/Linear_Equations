@@ -136,7 +136,7 @@ function gauss_gordan(equationArray, vec) {
 }
 
 function Identity_matrix(rows) {
-    var arr = Array(rows).fill(0).map(x => Array(rows).fill(0))
+    var arr = Array(rows).fill(0).map(x => Array(rows).fill(0));
     for (var i = 0; i < rows; i++) {
         arr[i][i] = 1;
     }
@@ -185,7 +185,48 @@ function cholesky_LU(equationArray, vec) {
     }
     console.log(L);
     var y = forward_substitution(L, vec);
-    console.log(backward_substitution(transpose(L), y));
+    return backward_substitution(transpose(L), y);
+}
+
+function crout_LU(equationArray,vec){
+    var n = equationArray.length;
+    var U = Identity_matrix(n+1);
+    var L = create2Darray(n+1);
+    L = Array(n+1).fill(0).map(x => Array(n+1).fill(0));
+    var sum = 0;
+    equationArray = incrementSize(equationArray);
+    for(var i=1;i<=n;i++){
+        L[i][1] = equationArray[i][1];
+    }
+    for(var j=2;j<=n;j++){
+        U[1][j] = equationArray[1][j]/L[1][1];
+    }
+    for(var j=2;j<=n-1;j++){
+        for(var i=j;i<=n;i++){
+            sum = 0;
+            for(var k=1;k<=j-1;k++){
+                sum += (L[i][k] * U[k][j]);
+            }
+            L[i][j] = equationArray[i][j]-sum;
+        }
+        for(var k=j+1;k<=n;k++){
+            sum = 0;
+            for(var i=1;i<=j-1;i++){
+                sum += (L[j][i] * U[i][k]);
+            }
+            U[j][k] = (equationArray[j][k]-sum)/L[j][j];
+        }
+    }
+    sum=0;
+    for(var k=1;k<=n-1;k++){
+        sum+=(L[n][k]*U[k][n]);
+    }
+    L[n][n] = equationArray[n][n]-sum;
+    equationArray=normalSize(equationArray);
+    U = normalSize(U);
+    L = normalSize(L);
+    var y = forward_substitution(L,vec);
+    return backward_substitution(U,y);
 }
 
 function forward_substitution(equationArray, vec) {
@@ -224,16 +265,41 @@ function transpose(matrix) {
     }
     return solution;
 }
-
+function incrementSize(array){
+    var n = array.length+1;
+    result = create2Darray(n);
+    for(var i=0;i<n-1;i++){
+        for(var j=0;j<n-1;j++){
+            result[i+1][j+1]=array[i][j];
+        }
+    }
+    return result;
+}
+function normalSize(array){
+    var n = array.length-1;
+    result = create2Darray(n);
+    for(var i=0;i<n;i++){
+        for(var j=0;j<n;j++){
+            result[i][j]=array[i+1][j+1];
+        }
+    }
+    return result;
+}
 
 arr = create2Darray(3);
 
-arr[0][0] = 6.777777777777777;
-arr[0][1] = 15;
-arr[0][2] = 55;
-arr[0][3] = 767;
+arr[0][0] = 5;
+arr[0][1] = 4;
+arr[0][2] = 1;
+arr[1][0] = 10;
+arr[1][1] = 9;
+arr[1][2] = 4;
+arr[2][0] = 10;
+arr[2][1] = 13;
+arr[2][2] = 15;
 
-var vec = [100, 100, 200];
+var vec = [3.4, 8.8, 19.2];
+crout_LU(arr,vec);
 //cholesky_LU(arr,vec);
 
 //downlittle_LU(arr,vec);
