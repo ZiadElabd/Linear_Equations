@@ -152,26 +152,29 @@ function Identity_matrix(rows) {
 
 function downlittle_LU(equationArray, vec) {
     var L = Identity_matrix(equationArray.length);
-
+    addLabel("Start");
     for (var i = 0; i < equationArray.length - 1; i++) {
-
+        addLabel( (i+1) + "  iteration  ");
         for (var j = i + 1; j < equationArray.length; j++) {
             const factor = -1 * equationArray[j][i] / equationArray[i][i];
             for (var k = i; k < equationArray.length; k++)
                 equationArray[j][k] += equationArray[i][k] * factor;
             L[j][i] = -1 * factor;
+            addLabel("U Matrix");
+            createTable(equationArray, equationArray.length);
+            addLabel("L Matrix");
+            createTable(L, L.length);
         }
     }
-    console.log(L);
-    createTable(L, L.length)
-    console.log(equationArray);
-    createTable(equationArray, equationArray.length);
-    console.log(vec);
+    
     var y = forward_substitution(L, vec);
     console.log(y);
-
-    return backward_substitution(equationArray, y);
-
+    addLabel("after forward substitution");
+    createOneRowInTable(y,y.length);
+    var result = backward_substitution(equationArray, y);
+    addLabel("after backward substitution");
+    createOneRowInTable(result,result.length);
+    return result;
 }
 
 function cholesky_LU(equationArray, vec) {
@@ -305,6 +308,12 @@ function normalSize(array) {
         }
     }
     return result;
+}
+function addLabel(text){
+    var x = document.getElementById('results');
+    var newlabel = document.createElement("Label");
+    newlabel.innerHTML = (text+"\n");
+    x.appendChild(newlabel);
 }
 
 arr = create2Darray(3);
