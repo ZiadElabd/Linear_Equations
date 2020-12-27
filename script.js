@@ -485,7 +485,7 @@ function handleSolveClicked() {
         if (isSymetric(equationArray)) {
             cholesky_LU(equationArray, equations_value);
         } else {
-            alert("Matrix should be Symetric")
+            alert("Matrix Must be Symetric")
         }
     } else if (methodType == "Crout Form") {
         crout_LU(equationArray, equations_value);
