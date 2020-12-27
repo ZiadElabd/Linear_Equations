@@ -163,7 +163,9 @@ function downlittle_LU(equationArray, vec) {
         }
     }
     console.log(L);
+    createTable(L,L.length)
     console.log(equationArray);
+    createTable(equationArray,equationArray.length);
     console.log(vec);
     var y = forward_substitution(L, vec);
     console.log(y);
@@ -272,6 +274,15 @@ function transpose(matrix) {
     }
     return solution;
 }
+function isSymetric(equationArray){
+    for(var i=0;i<equationArray.length;i++){
+        for(var j=0;j<equationArray.length;j++){
+            if(equationArray[i][j] != equationArray[j][i])
+                return false;
+        }
+    }
+    return true;
+}
 function incrementSize(array){
     var n = array.length+1;
     result = create2Darray(n);
@@ -295,20 +306,20 @@ function normalSize(array){
 
 arr = create2Darray(3);
 
-arr[0][0] = 5;
-arr[0][1] = 4;
-arr[0][2] = 1;
-arr[1][0] = 10;
-arr[1][1] = 9;
-arr[1][2] = 4;
-arr[2][0] = 10;
-arr[2][1] = 13;
-arr[2][2] = 15;
+arr[0][0] = 6;
+arr[0][1] = 15;
+arr[0][2] = 55;
+arr[1][0] = 15;
+arr[1][1] = 55;
+arr[1][2] = 225;
+arr[2][0] = 55;
+arr[2][1] = 225;
+arr[2][2] = 979;
 
 var vec = [3.4, 8.8, 19.2];
-crout_LU(arr,vec);
+//crout_LU(arr,vec);
 //cholesky_LU(arr,vec);
-
+console.log(isSymetric(arr));
 //downlittle_LU(arr,vec);
 //console.log(gauss_elimination_with_pivoting(arr,vec));
 
@@ -476,6 +487,7 @@ function handleSolveClicked() {
     }else if (methodType == "Gauss Jordan"){
         gauss_gordan(equationArray,equations_value) ;
     }
+
 }
 
 function getEquationArray(martrixString, size) {

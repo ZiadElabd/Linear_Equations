@@ -24,13 +24,16 @@
             <option value="Gauss Elimination">Gauss Elimination</option>
             <option value="Gauss Elimination using pivoting.">Gauss Elimination using pivoting</option>
             <option value="Gauss Jordan">Gauss Jordan</option>
-            <option value="LU Decomposition">LU Decomposition</option>
+            <option value="Downlittle Form">Downlittle Form</option>
+            <option value="Cholesky Form">Cholesky Form</option>
+            <option value="Crout Form">Crout Form</option>
             <option value="Gauss Seidil">Gauss Seidil</option>
             <option value="Jacobi Iteration">Jacobi Iteration</option>
             </select>
         </div>
         <div id="readFile">
-            <button id="textbtn">Read from file</button>
+            <label for="inputfile">Choose your file here:</label>
+            <input type="file" name="inputfile" id="inputfile" onchange="handlefile()">
 
         </div>
         <div id="extra">
