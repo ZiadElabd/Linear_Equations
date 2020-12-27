@@ -486,6 +486,16 @@ function handleSolveClicked() {
         gauss_elimination_with_pivoting(equationArray,equations_value) ; 
     }else if (methodType == "Gauss Jordan"){
         gauss_gordan(equationArray,equations_value) ;
+    }else if(methodType == "Downlittle Form"){
+        downlittle_LU(equationArray,equations_value);
+    }else if(methodType == "Cholesky Form"){
+        if(isSymetric(equationArray)){
+            cholesky_LU(equationArray,equations_value);
+        }else{
+            //here put warning that it is not symetric
+        }
+    }else if(methodType == "Crout Form"){
+        crout_LU(equationArray,equations_value);
     }
 
 }
