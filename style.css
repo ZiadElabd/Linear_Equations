@@ -52,6 +52,12 @@ h1 {
     height: 20px;
 }
 
+#intailInput {
+    width: 200px;
+    height: 20px;
+    margin-left: 30px;
+}
+
 #solvebtn {
     margin-left: 280px;
     width: 100px;
