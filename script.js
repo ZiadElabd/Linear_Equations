@@ -156,7 +156,9 @@ function downlittle_LU(equationArray, vec) {
         }
     }
     console.log(L);
+    createTable(L,L.length)
     console.log(equationArray);
+    createTable(equationArray,equationArray.length);
     console.log(vec);
     var y = forward_substitution(L, vec);
     console.log(y);
@@ -188,45 +190,45 @@ function cholesky_LU(equationArray, vec) {
     return backward_substitution(transpose(L), y);
 }
 
-function crout_LU(equationArray, vec) {
+function crout_LU(equationArray,vec){
     var n = equationArray.length;
-    var U = Identity_matrix(n + 1);
-    var L = create2Darray(n + 1);
-    L = Array(n + 1).fill(0).map(x => Array(n + 1).fill(0));
+    var U = Identity_matrix(n+1);
+    var L = create2Darray(n+1);
+    L = Array(n+1).fill(0).map(x => Array(n+1).fill(0));
     var sum = 0;
     equationArray = incrementSize(equationArray);
-    for (var i = 1; i <= n; i++) {
+    for(var i=1;i<=n;i++){
         L[i][1] = equationArray[i][1];
     }
-    for (var j = 2; j <= n; j++) {
-        U[1][j] = equationArray[1][j] / L[1][1];
+    for(var j=2;j<=n;j++){
+        U[1][j] = equationArray[1][j]/L[1][1];
     }
-    for (var j = 2; j <= n - 1; j++) {
-        for (var i = j; i <= n; i++) {
+    for(var j=2;j<=n-1;j++){
+        for(var i=j;i<=n;i++){
             sum = 0;
-            for (var k = 1; k <= j - 1; k++) {
+            for(var k=1;k<=j-1;k++){
                 sum += (L[i][k] * U[k][j]);
             }
-            L[i][j] = equationArray[i][j] - sum;
+            L[i][j] = equationArray[i][j]-sum;
         }
-        for (var k = j + 1; k <= n; k++) {
+        for(var k=j+1;k<=n;k++){
             sum = 0;
-            for (var i = 1; i <= j - 1; i++) {
+            for(var i=1;i<=j-1;i++){
                 sum += (L[j][i] * U[i][k]);
             }
-            U[j][k] = (equationArray[j][k] - sum) / L[j][j];
+            U[j][k] = (equationArray[j][k]-sum)/L[j][j];
         }
     }
-    sum = 0;
-    for (var k = 1; k <= n - 1; k++) {
-        sum += (L[n][k] * U[k][n]);
+    sum=0;
+    for(var k=1;k<=n-1;k++){
+        sum+=(L[n][k]*U[k][n]);
     }
-    L[n][n] = equationArray[n][n] - sum;
-    equationArray = normalSize(equationArray);
+    L[n][n] = equationArray[n][n]-sum;
+    equationArray=normalSize(equationArray);
     U = normalSize(U);
     L = normalSize(L);
-    var y = forward_substitution(L, vec);
-    return backward_substitution(U, y);
+    var y = forward_substitution(L,vec);
+    return backward_substitution(U,y);
 }
 
 function forward_substitution(equationArray, vec) {
@@ -265,24 +267,31 @@ function transpose(matrix) {
     }
     return solution;
 }
-
-function incrementSize(array) {
-    var n = array.length + 1;
+function isSymetric(equationArray){
+    for(var i=0;i<equationArray.length;i++){
+        for(var j=0;j<equationArray.length;j++){
+            if(equationArray[i][j] != equationArray[j][i])
+                return false;
+        }
+    }
+    return true;
+}
+function incrementSize(array){
+    var n = array.length+1;
     result = create2Darray(n);
-    for (var i = 0; i < n - 1; i++) {
-        for (var j = 0; j < n - 1; j++) {
-            result[i + 1][j + 1] = array[i][j];
+    for(var i=0;i<n-1;i++){
+        for(var j=0;j<n-1;j++){
+            result[i+1][j+1]=array[i][j];
         }
     }
     return result;
 }
-
-function normalSize(array) {
-    var n = array.length - 1;
+function normalSize(array){
+    var n = array.length-1;
     result = create2Darray(n);
-    for (var i = 0; i < n; i++) {
-        for (var j = 0; j < n; j++) {
-            result[i][j] = array[i + 1][j + 1];
+    for(var i=0;i<n;i++){
+        for(var j=0;j<n;j++){
+            result[i][j]=array[i+1][j+1];
         }
     }
     return result;
@@ -290,20 +299,20 @@ function normalSize(array) {
 
 arr = create2Darray(3);
 
-arr[0][0] = 5;
-arr[0][1] = 4;
-arr[0][2] = 1;
-arr[1][0] = 10;
-arr[1][1] = 9;
-arr[1][2] = 4;
-arr[2][0] = 10;
-arr[2][1] = 13;
-arr[2][2] = 15;
+arr[0][0] = 6;
+arr[0][1] = 15;
+arr[0][2] = 55;
+arr[1][0] = 15;
+arr[1][1] = 55;
+arr[1][2] = 225;
+arr[2][0] = 55;
+arr[2][1] = 225;
+arr[2][2] = 979;
 
 var vec = [3.4, 8.8, 19.2];
-crout_LU(arr, vec);
+//crout_LU(arr,vec);
 //cholesky_LU(arr,vec);
-
+console.log(isSymetric(arr));
 //downlittle_LU(arr,vec);
 //console.log(gauss_elimination_with_pivoting(arr,vec));
 
@@ -463,13 +472,18 @@ function handleSolveClicked() {
             console.log("here");
             createTable(Jacobi_IterationNum(equationArray, equations_value, size, stopValue), stopValue);
         }
-    } else if (methodType == "Gauss Elimination") {
-        gauss_elimination(equationArray, equations_value);
-    } else if (methodType == "Gauss Elimination using pivoting.") {
-        gauss_elimination_with_pivoting(equationArray, equations_value);
-    } else if (methodType == "Gauss Jordan") {
-        gauss_gordan(equationArray, equations_value);
+    }else if(methodType == "Downlittle Form"){
+        downlittle_LU(equationArray,equations_value);
+    }else if(methodType == "Cholesky Form"){
+        if(isSymetric(equationArray)){
+            cholesky_LU(equationArray,equations_value);
+        }else{
+            //here put warning that it is not symetric
+        }
+    }else if(methodType == "Crout Form"){
+        crout_LU(equationArray,equations_value);
     }
+
 }
 
 function getEquationArray(martrixString, size) {
@@ -490,22 +504,6 @@ function getEquationValues(martrixString, size) {
         equationValues[i] = parseFloat(num[size]);
     }
     return equationValues;
-}
-
-function handlefile() {
-    console.log("here")
-    var fileSelected = document.getElementById('inputfile').files[0];
-    var type = (fileSelected.name).split('.').pop();
-    var fr = new FileReader();
-    if (type == 'txt') {
-        fr.onload = function() {
-            document.getElementById('inputEquation').value = fr.result;
-        }
-        fr.readAsText(fileSelected);
-    } else {
-        alert("upload txt files only");
-    }
-    this.files = null;
 }
 
 function createTable(matrix, size) {
