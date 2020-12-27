@@ -12,12 +12,8 @@ function swap(arr, ai, aj, bi, bj) {
 }
 
 function gauss_elimination(equationArray, vec) {
-
-    console.log("aa7a");
-
     // forward elimination
     for (var i = 0; i < equationArray.length - 1; i++) {
-
         for (var j = i + 1; j < equationArray.length; j++) {
             const factor = -1 * equationArray[j][i] / equationArray[i][i];
             for (var k = i; k < equationArray.length; k++)
@@ -37,9 +33,6 @@ function gauss_elimination(equationArray, vec) {
             sum += equationArray[i][j] * solution[j];
         solution[i] = (vec[i] - sum) / equationArray[i][i];
     }
-
-    console.log(solution);
-    // return the solution
     createOneRowInTable(solution, solution.length);
 }
 
@@ -66,7 +59,6 @@ function gauss_elimination_with_pivoting(equationArray, vec) {
         vec[i] = vec[indx];
         vec[indx] = tmp;
 
-
         // forward elimination
         for (var j = i + 1; j < equationArray.length; j++) {
             const factor = -1 * equationArray[j][i] / equationArray[i][i];
@@ -74,9 +66,7 @@ function gauss_elimination_with_pivoting(equationArray, vec) {
                 equationArray[j][k] += equationArray[i][k] * factor;
             vec[j] += vec[i] * factor;
         }
-
         createTable(equationArray, equationArray.length);
-
     }
 
     // find the solution --> backward substitution
@@ -116,7 +106,6 @@ function gauss_gordan(equationArray, vec) {
         solution[i] = vec[i] / equationArray[i][i];
 
     createOneRowInTable(solution, solution.length);
-
 }
 
 function Identity_matrix(rows) {
@@ -145,7 +134,6 @@ function downlittle_LU(equationArray, vec) {
     }
 
     var y = forward_substitution(L, vec);
-    console.log(y);
     addLabel("after forward substitution");
     createOneRowInTable(y, y.length);
     var result = backward_substitution(equationArray, y);
@@ -328,13 +316,11 @@ function gauss_seidel(equation_factors, equations_value, max_degree, number_of_i
         
         for (var first_iterator = 0; first_iterator < max_degree; first_iterator++) {
             results[first_iterator] = (equations_value[first_iterator] / equation_factors[first_iterator][first_iterator]);
-            // console.log( results[first_iterator])
             for (var second_iterator = 0; second_iterator < max_degree; second_iterator++) {
                 if (second_iterator == first_iterator) // not for diagonals
                     continue;
                 // the real deal happens below
                 results[first_iterator] = results[first_iterator] - ((equation_factors[first_iterator][second_iterator] / equation_factors[first_iterator][first_iterator]) * initial_x[second_iterator]);
-                //console.log( results[first_iterator])
 
             }
             initial_x[first_iterator] = results[first_iterator];
@@ -346,7 +332,6 @@ function gauss_seidel(equation_factors, equations_value, max_degree, number_of_i
     }
 }
 
-
 function gauss_seidelError(equation_factors, equations_value, max_degree, stopCondition,initial_x) {
 
     var  results = [],
@@ -356,16 +341,13 @@ function gauss_seidelError(equation_factors, equations_value, max_degree, stopCo
     while (newIteration) {
         for (var first_iterator = 0; first_iterator < max_degree; first_iterator++) {
             results[first_iterator] = (equations_value[first_iterator] / equation_factors[first_iterator][first_iterator]);
-            // console.log( results[first_iterator])
             for (var second_iterator = 0; second_iterator < max_degree; second_iterator++) {
                 if (second_iterator == first_iterator) // not for diagonals
                     continue;
                 // the real deal happens below
                 results[first_iterator] = results[first_iterator] - ((equation_factors[first_iterator][second_iterator] / equation_factors[first_iterator][first_iterator]) * initial_x[second_iterator]);
-                //console.log( results[first_iterator])
             }
             initial_x[first_iterator] = results[first_iterator];
-            // console.log(initial_x);
         }
         // calculating the relative error and decide to make new iteration or not
         for (var i = 0; i < max_degree; i++) {
@@ -381,11 +363,7 @@ function gauss_seidelError(equation_factors, equations_value, max_degree, stopCo
         last = initial_x.slice(0);
         addLabel('iteration' + l++);
         createOneRowInTable(initial_x,max_degree);
-
-
     }
-
-
 }
 
 function Jacobi_IterationNum(equationArray, equations_value, max_degree, number_of_iters, initial_x) {
@@ -459,14 +437,12 @@ function handleSolveClicked() {
     var stopType = document.getElementById("extraMenu").value;
     var stopValue = document.getElementById("inputCondition").value;
     var intialVAlues = document.getElementById("intailInput").value;
-    console.log(intialVAlues);
     var equationArray = create2Darray(size);
     var equations_value = create2Darray(1);
     var intialArray = create2Darray(1);
     equationArray = getEquationArray(martrixString, size);
     equations_value = getEquationValues(martrixString, size);
     intialArray = getIntailValues(intialVAlues, size);
-    console.log(intialArray);
     if (methodType == "Jacobi Iteration") {
         if (stopType == "Absolute Relative Error") {
             Jacobi_IterationError(equationArray, equations_value, size, stopValue, intialArray);
@@ -497,7 +473,6 @@ function handleSolveClicked() {
             gauss_seidel(equationArray, equations_value, size, stopValue,intialArray)
         }
     }
-
 }
 
 function getEquationArray(martrixString, size) {
