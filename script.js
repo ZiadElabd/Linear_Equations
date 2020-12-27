@@ -34,6 +34,8 @@ function swap(arr, ai, aj, bi, bj) {
 
 function gauss_elimination(equationArray, vec) {
 
+    console.log("aa7a") ;
+
     // forward elimination
     for (var i = 0; i < equationArray.length - 1; i++) {
 
@@ -43,6 +45,7 @@ function gauss_elimination(equationArray, vec) {
                 equationArray[j][k] += equationArray[i][k] * factor;
             vec[j] += vec[i] * factor;
         }
+        createTable(equationArray,equationArray.length);
     }
 
     // find the solution --> backward substitution
@@ -54,10 +57,11 @@ function gauss_elimination(equationArray, vec) {
         for (var j = i + 1; j <= n; j++)
             sum += equationArray[i][j] * solution[j];
         solution[i] = (vec[i] - sum) / equationArray[i][i];
-    }
+    }   
 
+    console.log(solution);
     // return the solution
-    return solution;
+    createOneRowInTable(solution,solution.length);
 }
 
 
@@ -94,6 +98,8 @@ function gauss_elimination_with_pivoting(equationArray, vec) {
             vec[j] += vec[i] * factor;
         }
 
+        createTable(equationArray,equationArray.length);
+
     }
 
     // find the solution --> backward substitution
@@ -108,7 +114,7 @@ function gauss_elimination_with_pivoting(equationArray, vec) {
     }
 
     // return the solution
-    return solution;
+    createOneRowInTable(solution,solution.length);
 }
 
 function gauss_gordan(equationArray, vec) {
@@ -123,6 +129,7 @@ function gauss_gordan(equationArray, vec) {
                 equationArray[j][k] += equationArray[i][k] * factor;
             vec[j] += vec[i] * factor;
         }
+        createTable(equationArray,equationArray.length);
     }
 
     // find the solution --> backward substitution
@@ -131,7 +138,7 @@ function gauss_gordan(equationArray, vec) {
     for (var i = n; i >= 0; i--)
         solution[i] = vec[i] / equationArray[i][i];
 
-    return solution;
+    createOneRowInTable(solution,solution.length);
 
 }
 
@@ -462,6 +469,7 @@ function handleSolveClicked() {
             createTable(Jacobi_IterationNum(equationArray, equations_value, size, stopValue), stopValue);
         }
     }else if (methodType == "Gauss Elimination"){
+        console.log(171);
         gauss_elimination(equationArray,equations_value) ; 
     }else if (methodType == "Gauss Elimination using pivoting."){
         gauss_elimination_with_pivoting(equationArray,equations_value) ; 
