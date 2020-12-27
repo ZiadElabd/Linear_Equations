@@ -14,7 +14,8 @@ body {
 #app {
     background-image: linear-gradient(to bottom, #92c8cf, #023E6E);
     background-color: rgba(255, 255, 255, 0.5);
-    width: 700px;
+    min-width: 700px;
+    min-height: 400px;
     padding: 10px;
     border-radius: 10px;
     /*flex*/
@@ -44,7 +45,6 @@ h1 {
     width: 250px;
     height: 50px;
     resize: vertical;
-    
 }
 
 #textbtn {
@@ -75,11 +75,6 @@ h1 {
     margin: 40px;
 }
 
-#resultbox {
-    width: fit-content;
-    height: fit-content;
-    resize: vertical;
-}
 table {
     width: 100px;
     background-color: rgba(0, 0, 0, 0.5);
@@ -87,8 +82,8 @@ table {
     margin: 10px;
     color: #FFF;
 }
-table td
-{
+
+table td {
     border: 1px #FFF solid;
     padding: 10px;
 }

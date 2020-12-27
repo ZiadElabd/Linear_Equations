@@ -314,6 +314,7 @@ function Jacobi_IterationNum(equationArray, equations_value, max_degree, number_
     var initial_x = [];
     var newGuess_x = [];
     var temp = 0;
+    var result = [];
     for (var i = 0; i < max_degree; i++) initial_x[i] = 1;
     //loop for number of iterations
     while (number_of_iters > 0) {
@@ -333,8 +334,10 @@ function Jacobi_IterationNum(equationArray, equations_value, max_degree, number_
         //set the initial to the new valuse from the iteration
         initial_x = newGuess_x.slice(0);
         number_of_iters--;
-        document.getElementById('resultbox').innerHTML = newGuess_x;
+        result.push(initial_x);
+        console.log(result);
     }
+    return result;
 }
 
 function Jacobi_IterationError(equationArray, equations_value, max_degree, stopCondition) {
@@ -342,7 +345,6 @@ function Jacobi_IterationError(equationArray, equations_value, max_degree, stopC
     var newGuess_x = [];
     var temp = 0;
     var newIteration = true;
-    var result = create2Darray(size);
     for (var i = 0; i < max_degree; i++) initial_x[i] = 1;
     //loop for number of iterations
     while (newIteration) {
@@ -369,7 +371,8 @@ function Jacobi_IterationError(equationArray, equations_value, max_degree, stopC
             }
         }
         initial_x = newGuess_x.slice(0);
-        result.push(initial_x);
+        console.log(initial_x);
+        createOneRowInTable(initial_x, max_degree);
     }
     return result;
 }
@@ -384,13 +387,14 @@ function handleSolveClicked() {
     var equations_value = create2Darray(1);
     equationArray = getEquationArray(martrixString, size);
     equations_value = getEquationValues(martrixString, size);
+    console.log(methodType, stopType, stopValue);
     if (methodType == "Jacobi Iteration") {
-        if (stopType = "Absolute Relative Error") {
-            document.getElementById('resultbox').innerHTML = Jacobi_IterationError(equationArray, equations_value, size, stopValue);
+        if (stopType == "Absolute Relative Error") {
+            Jacobi_IterationError(equationArray, equations_value, size, stopValue);
+        } else {
+            console.log("here");
+            createTable(Jacobi_IterationNum(equationArray, equations_value, size, stopValue), stopValue);
         }
-        console.log(getEquationArray(martrixString, size));
-        console.log(getEquationValues(martrixString, size));
-
     }
 }
 
@@ -414,41 +418,33 @@ function getEquationValues(martrixString, size) {
     return equationValues;
 }
 
-function createTable(matrix ,size){
+function createTable(matrix, size) {
     var x = document.getElementById('results');
     var table = document.createElement('table');
-    for (var i=0 ;i<size ;i++)
-    {
+    console.log(matrix[0].length);
+    for (var i = 0; i < size; i++) {
         var row = document.createElement('tr');
-        for (var j=0 ;j<size ;j++)
-        {
+        for (var j = 0; j < matrix[0].length; j++) {
             var td = document.createElement('td');
-            var value = document.createTextNode(parseFloat(matrix[i][j]).toFixed(3));
+            var value = document.createTextNode(parseFloat(matrix[i][j]).toFixed(7));
             td.appendChild(value);
             row.appendChild(td);
         }
-        table.appendChild(row) ;
+        table.appendChild(row);
     }
     x.appendChild(table);
 }
 
-function createOneRowInTable(matrix,size){
+function createOneRowInTable(matrix, size) {
     var x = document.getElementById('results');
     var table = document.createElement('table');
     var row = document.createElement('tr');
-    for (var j=0 ;j<size ;j++)
-        {
-            var td = document.createElement('td');
-            var value = document.createTextNode(parseFloat(matrix[0][j]).toFixed(3));
-            td.appendChild(value);
-            row.appendChild(td);
-        }
-    table.appendChild(row) ;
+    for (var j = 0; j < size; j++) {
+        var td = document.createElement('td');
+        var value = document.createTextNode(parseFloat(matrix[j]).toFixed(7));
+        td.appendChild(value);
+        row.appendChild(td);
+    }
+    table.appendChild(row);
     x.appendChild(table);
 }
-
-
-
-
-
-
