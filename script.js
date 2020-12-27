@@ -397,12 +397,10 @@ function gauss_seidelError(equation_factors, equations_value, max_degree, stopCo
 
 }
 
-function Jacobi_IterationNum(equationArray, equations_value, max_degree, number_of_iters) {
-    var initial_x = [];
+function Jacobi_IterationNum(equationArray, equations_value, max_degree, number_of_iters, initial_x) {
     var newGuess_x = [];
     var temp = 0;
     var result = [];
-    for (var i = 0; i < max_degree; i++) initial_x[i] = 1;
     //loop for number of iterations
     while (number_of_iters > 0) {
         //loop for accessing all equations
@@ -422,17 +420,14 @@ function Jacobi_IterationNum(equationArray, equations_value, max_degree, number_
         initial_x = newGuess_x.slice(0);
         number_of_iters--;
         result.push(initial_x);
-        console.log(result);
     }
     return result;
 }
 
-function Jacobi_IterationError(equationArray, equations_value, max_degree, stopCondition) {
-    var initial_x = [];
+function Jacobi_IterationError(equationArray, equations_value, max_degree, stopCondition, initial_x) {
     var newGuess_x = [];
     var temp = 0;
     var newIteration = true;
-    for (var i = 0; i < max_degree; i++) initial_x[i] = 1;
     //loop for number of iterations
     while (newIteration) {
         //loop for accessing all equations
@@ -458,7 +453,6 @@ function Jacobi_IterationError(equationArray, equations_value, max_degree, stopC
             }
         }
         initial_x = newGuess_x.slice(0);
-        console.log(initial_x);
         createOneRowInTable(initial_x, max_degree);
     }
     return result;
@@ -470,16 +464,21 @@ function handleSolveClicked() {
     var methodType = document.getElementById("methods").value;
     var stopType = document.getElementById("extraMenu").value;
     var stopValue = document.getElementById("inputCondition").value;
+    var intialVAlues = document.getElementById("intailInput").value;
+    console.log(intialVAlues);
     var equationArray = create2Darray(size);
     var equations_value = create2Darray(1);
+    var intialArray = create2Darray(1);
     equationArray = getEquationArray(martrixString, size);
     equations_value = getEquationValues(martrixString, size);
+    intialArray = getIntailValues(intialVAlues, size);
+    console.log(intialArray);
     if (methodType == "Jacobi Iteration") {
         if (stopType == "Absolute Relative Error") {
-            Jacobi_IterationError(equationArray, equations_value, size, stopValue);
+            Jacobi_IterationError(equationArray, equations_value, size, stopValue, intialArray);
         } else {
             console.log("here");
-            createTable(Jacobi_IterationNum(equationArray, equations_value, size, stopValue), stopValue);
+            createTable(Jacobi_IterationNum(equationArray, equations_value, size, stopValue, intialArray), stopValue);
         }
     } else if (methodType == "Gauss Elimination") {
         console.log(171);
@@ -520,6 +519,31 @@ function getEquationValues(martrixString, size) {
         equationValues[i] = parseFloat(num[size]);
     }
     return equationValues;
+}
+
+function getIntailValues(matrix, size) {
+    var equationValues = create2Darray(1);
+    var num = matrix.split(' ');
+    for (var i = 0; i < size; i++) {
+        equationValues[i] = parseFloat(num[i]);
+    }
+    return equationValues;
+}
+
+function handlefile() {
+
+    var fileSelected = document.getElementById('inputfile').files[0];
+    var type = (fileSelected.name).split('.').pop();
+    var fr = new FileReader();
+    if (type == 'txt') {
+        fr.onload = function() {
+            document.getElementById('inputEquation').value = fr.result;
+        }
+        fr.readAsText(fileSelected);
+    } else {
+        alert("upload txt files only");
+    }
+    this.files = null;
 }
 
 function createTable(matrix, size) {
