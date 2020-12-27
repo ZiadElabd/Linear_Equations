@@ -461,6 +461,12 @@ function handleSolveClicked() {
             console.log("here");
             createTable(Jacobi_IterationNum(equationArray, equations_value, size, stopValue), stopValue);
         }
+    }else if (methodType == "Gauss Elimination"){
+        gauss_elimination(equationArray,equations_value) ; 
+    }else if (methodType == "Gauss Elimination using pivoting."){
+        gauss_elimination_with_pivoting(equationArray,equations_value) ; 
+    }else if (methodType == "Gauss Jordan"){
+        gauss_gordan(equationArray,equations_value) ;
     }
 }
 
