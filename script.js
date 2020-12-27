@@ -11,27 +11,6 @@ function swap(arr, ai, aj, bi, bj) {
     arr[ai][aj] = temp;
 }
 
-// arr = create2Darray(4);
-
-// arr[0][0] = 4; //[[4,6,2,-2], [2,0,5,-2] , [-4,-3,-5,4],[8,18,-2,3]]
-// arr[0][1] = 6;
-// arr[0][2] = 2;
-// arr[0][3] = -2;
-// arr[1][0] = 2;
-// arr[1][1] = 6;
-// arr[1][2] = 5;
-// arr[1][3] = 2;
-// arr[2][0] = -4;
-// arr[2][1] = -3;
-// arr[2][2] = -5;
-// arr[2][3] = 4;
-// arr[3][0] = 8;
-// arr[3][1] = 18;
-// arr[3][2] = -2;
-// arr[3][3] = 3;
-
-// var vec = [8, 4, 1, 40];
-
 function gauss_elimination(equationArray, vec) {
 
     console.log("aa7a");
@@ -342,26 +321,6 @@ function addLabel(text) {
     newlabel.innerHTML = (text + "\n");
     x.appendChild(newlabel);
 }
-
-arr = create2Darray(3);
-
-arr[0][0] = 6;
-arr[0][1] = 15;
-arr[0][2] = 55;
-arr[1][0] = 15;
-arr[1][1] = 55;
-arr[1][2] = 225;
-arr[2][0] = 55;
-arr[2][1] = 225;
-arr[2][2] = 979;
-
-var vec = [3.4, 8.8, 19.2];
-//crout_LU(arr,vec);
-//cholesky_LU(arr,vec);
-console.log(isSymetric(arr));
-//downlittle_LU(arr,vec);
-//console.log(gauss_elimination_with_pivoting(arr,vec));
-
 
 function gauss_seidel(equation_factors, equations_value, max_degree, number_of_iters,initial_x) {
 
