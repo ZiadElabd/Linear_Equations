@@ -336,12 +336,12 @@ console.log(isSymetric(arr));
 //console.log(gauss_elimination_with_pivoting(arr,vec));
 
 
-function gauss_seidel(equation_factors, equations_value, max_degree, number_of_iters) {
+function gauss_seidel(equation_factors, equations_value, max_degree, number_of_iters,initial_x) {
 
-    var initial_x = [],
-        results = [];
-    for (var i = 0; i < max_degree; i++) initial_x[i] = 1;
+    var results = [],
+        l=1 ;
     while (number_of_iters > 0) {
+        
         for (var first_iterator = 0; first_iterator < max_degree; first_iterator++) {
             results[first_iterator] = (equations_value[first_iterator] / equation_factors[first_iterator][first_iterator]);
             // console.log( results[first_iterator])
@@ -354,22 +354,23 @@ function gauss_seidel(equation_factors, equations_value, max_degree, number_of_i
 
             }
             initial_x[first_iterator] = results[first_iterator];
-            console.log(initial_x);
         }
+        addLabel('iteration' + l++);
+        createOneRowInTable(initial_x,max_degree);
         number_of_iters--;
+        
     }
 
 
 }
 
 
-function gauss_seidelError(equation_factors, equations_value, max_degree, stopCondition) {
+function gauss_seidelError(equation_factors, equations_value, max_degree, stopCondition,initial_x) {
 
-    var initial_x = [],
-        results = [],
+    var  results = [],
         newIteration = true;
-    for (var i = 0; i < max_degree; i++) initial_x[i] = 1;
-    var last = initial_x.slice(0);
+    var last = initial_x.slice(0),
+        l=1 ;
     while (newIteration) {
         for (var first_iterator = 0; first_iterator < max_degree; first_iterator++) {
             results[first_iterator] = (equations_value[first_iterator] / equation_factors[first_iterator][first_iterator]);
@@ -380,14 +381,11 @@ function gauss_seidelError(equation_factors, equations_value, max_degree, stopCo
                 // the real deal happens below
                 results[first_iterator] = results[first_iterator] - ((equation_factors[first_iterator][second_iterator] / equation_factors[first_iterator][first_iterator]) * initial_x[second_iterator]);
                 //console.log( results[first_iterator])
-
             }
             initial_x[first_iterator] = results[first_iterator];
             // console.log(initial_x);
         }
         // calculating the relative error and decide to make new iteration or not
-        console.log(initial_x);
-        console.log(last);
         for (var i = 0; i < max_degree; i++) {
             var relativeError = (Math.abs((initial_x[i] - last[i]) / initial_x[i])) * 100;
             if (relativeError > stopCondition) {
@@ -399,6 +397,8 @@ function gauss_seidelError(equation_factors, equations_value, max_degree, stopCo
         }
 
         last = initial_x.slice(0);
+        addLabel('iteration' + l++);
+        createOneRowInTable(initial_x,max_degree);
 
 
     }
@@ -490,7 +490,6 @@ function handleSolveClicked() {
             createTable(Jacobi_IterationNum(equationArray, equations_value, size, stopValue, intialArray), stopValue);
         }
     } else if (methodType == "Gauss Elimination") {
-        console.log(171);
         gauss_elimination(equationArray, equations_value);
     } else if (methodType == "Gauss Elimination using pivoting.") {
         gauss_elimination_with_pivoting(equationArray, equations_value);
@@ -506,6 +505,13 @@ function handleSolveClicked() {
         }
     } else if (methodType == "Crout Form") {
         crout_LU(equationArray, equations_value);
+    }else if (methodType == "Gauss Seidil"){
+        if (stopType == "Absolute Relative Error") {
+            console.log('here');
+            gauss_seidelError(equationArray, equations_value, size, stopValue,intialArray);
+        }else {
+            gauss_seidel(equationArray, equations_value, size, stopValue,intialArray)
+        }
     }
 
 }
