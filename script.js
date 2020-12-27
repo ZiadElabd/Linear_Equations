@@ -43,8 +43,6 @@ function gauss_elimination(equationArray, vec) {
     createOneRowInTable(solution, solution.length);
 }
 
-
-
 function gauss_elimination_with_pivoting(equationArray, vec) {
 
     // forward elimination
@@ -346,8 +344,6 @@ function gauss_seidel(equation_factors, equations_value, max_degree, number_of_i
         number_of_iters--;
         
     }
-
-
 }
 
 
