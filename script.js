@@ -180,8 +180,9 @@ function downlittle_LU(equationArray, vec) {
 function cholesky_LU(equationArray, vec) {
     var n = equationArray.length;
     var L = Array(n).fill(0).map(x => Array(n).fill(0));
-
+    addLabel("Start");
     for (var i = 0; i < n; i++) {
+        addLabel((i + 1) + "  iteration  ");
         for (var j = 0; j <= i; j++) {
             let sum = 0;
             if (i == j) {
@@ -193,11 +194,17 @@ function cholesky_LU(equationArray, vec) {
                     sum += (L[i][k] * L[j][k])
                 L[i][j] = (equationArray[i][j] - sum) / L[j][j];
             }
+            addLabel("L Matrix");
+            createTable(L, L.length);
         }
     }
-    console.log(L);
     var y = forward_substitution(L, vec);
-    return backward_substitution(transpose(L), y);
+    addLabel("after forward substitution");
+    createOneRowInTable(y, y.length);
+    var result = backward_substitution(transpose(L), y);
+    addLabel("after backward substitution");
+    createOneRowInTable(result, result.length);
+    return result;
 }
 
 function crout_LU(equationArray, vec) {
@@ -207,13 +214,19 @@ function crout_LU(equationArray, vec) {
     L = Array(n + 1).fill(0).map(x => Array(n + 1).fill(0));
     var sum = 0;
     equationArray = incrementSize(equationArray);
+    addLabel("Start");
     for (var i = 1; i <= n; i++) {
         L[i][1] = equationArray[i][1];
+        addLabel("L Matrix");
+        createTable(L, L.length);
     }
     for (var j = 2; j <= n; j++) {
         U[1][j] = equationArray[1][j] / L[1][1];
+        addLabel("U Matrix");
+        createTable(U,U.length);
     }
     for (var j = 2; j <= n - 1; j++) {
+        addLabel( (i) + "  iteration  ");
         for (var i = j; i <= n; i++) {
             sum = 0;
             for (var k = 1; k <= j - 1; k++) {
@@ -228,17 +241,30 @@ function crout_LU(equationArray, vec) {
             }
             U[j][k] = (equationArray[j][k] - sum) / L[j][j];
         }
+        addLabel("U Matrix");
+        createTable(U,U.length);
+        addLabel("L Matrix");
+        createTable(L, L.length);
     }
     sum = 0;
     for (var k = 1; k <= n - 1; k++) {
         sum += (L[n][k] * U[k][n]);
     }
     L[n][n] = equationArray[n][n] - sum;
+    addLabel("U Matrix");
+    createTable(U,U.length);
+    addLabel("L Matrix");
+    createTable(L, L.length);
     equationArray = normalSize(equationArray);
     U = normalSize(U);
     L = normalSize(L);
     var y = forward_substitution(L, vec);
-    return backward_substitution(U, y);
+    addLabel("after forward substitution");
+    createOneRowInTable(y, y.length);
+    var result = backward_substitution(U, y);
+    addLabel("after backward substitution");
+    createOneRowInTable(result, result.length);
+    return result ;
 }
 
 function forward_substitution(equationArray, vec) {
