@@ -183,12 +183,12 @@ function crout_LU(equationArray, vec) {
     for (var i = 1; i <= n; i++) {
         L[i][1] = equationArray[i][1];
         addLabel("L Matrix");
-        createTable(L, L.length);
+        createTable(normalSize(L), L.length-1);
     }
     for (var j = 2; j <= n; j++) {
         U[1][j] = equationArray[1][j] / L[1][1];
         addLabel("U Matrix");
-        createTable(U,U.length);
+        createTable(normalSize(U),U.length-1);
     }
     for (var j = 2; j <= n - 1; j++) {
         addLabel( (i) + "  iteration  ");
@@ -207,9 +207,9 @@ function crout_LU(equationArray, vec) {
             U[j][k] = (equationArray[j][k] - sum) / L[j][j];
         }
         addLabel("U Matrix");
-        createTable(U,U.length);
+        createTable(normalSize(U),U.length-1);
         addLabel("L Matrix");
-        createTable(L, L.length);
+        createTable(normalSize(L), L.length-1);
     }
     sum = 0;
     for (var k = 1; k <= n - 1; k++) {
@@ -217,9 +217,9 @@ function crout_LU(equationArray, vec) {
     }
     L[n][n] = equationArray[n][n] - sum;
     addLabel("U Matrix");
-    createTable(U,U.length);
+    createTable(normalSize(U),U.length-1);
     addLabel("L Matrix");
-    createTable(L, L.length);
+    createTable(normalSize(L), L.length-1);
     equationArray = normalSize(equationArray);
     U = normalSize(U);
     L = normalSize(L);
