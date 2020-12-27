@@ -154,7 +154,7 @@ function downlittle_LU(equationArray, vec) {
     var L = Identity_matrix(equationArray.length);
     addLabel("Start");
     for (var i = 0; i < equationArray.length - 1; i++) {
-        addLabel( (i+1) + "  iteration  ");
+        addLabel((i + 1) + "  iteration  ");
         for (var j = i + 1; j < equationArray.length; j++) {
             const factor = -1 * equationArray[j][i] / equationArray[i][i];
             for (var k = i; k < equationArray.length; k++)
@@ -166,14 +166,14 @@ function downlittle_LU(equationArray, vec) {
             createTable(L, L.length);
         }
     }
-    
+
     var y = forward_substitution(L, vec);
     console.log(y);
     addLabel("after forward substitution");
-    createOneRowInTable(y,y.length);
+    createOneRowInTable(y, y.length);
     var result = backward_substitution(equationArray, y);
     addLabel("after backward substitution");
-    createOneRowInTable(result,result.length);
+    createOneRowInTable(result, result.length);
     return result;
 }
 
@@ -309,10 +309,11 @@ function normalSize(array) {
     }
     return result;
 }
-function addLabel(text){
+
+function addLabel(text) {
     var x = document.getElementById('results');
     var newlabel = document.createElement("Label");
-    newlabel.innerHTML = (text+"\n");
+    newlabel.innerHTML = (text + "\n");
     x.appendChild(newlabel);
 }
 
@@ -409,7 +410,7 @@ function gauss_seidelError(equation_factors, equations_value, max_degree, stopCo
 function Jacobi_IterationNum(equationArray, equations_value, max_degree, number_of_iters, initial_x) {
     var newGuess_x = [];
     var temp = 0;
-    var result = [];
+    var counter = 1;
     //loop for number of iterations
     while (number_of_iters > 0) {
         //loop for accessing all equations
@@ -428,15 +429,17 @@ function Jacobi_IterationNum(equationArray, equations_value, max_degree, number_
         //set the initial to the new valuse from the iteration
         initial_x = newGuess_x.slice(0);
         number_of_iters--;
-        result.push(initial_x);
+        addLabel("Iteration " + counter);
+        createOneRowInTable(initial_x, max_degree);
+        counter++;
     }
-    return result;
 }
 
 function Jacobi_IterationError(equationArray, equations_value, max_degree, stopCondition, initial_x) {
     var newGuess_x = [];
     var temp = 0;
     var newIteration = true;
+    var counter = 1;
     //loop for number of iterations
     while (newIteration) {
         //loop for accessing all equations
@@ -462,9 +465,10 @@ function Jacobi_IterationError(equationArray, equations_value, max_degree, stopC
             }
         }
         initial_x = newGuess_x.slice(0);
+        addLabel("Iteration " + counter);
         createOneRowInTable(initial_x, max_degree);
+        counter++;
     }
-    return result;
 }
 
 function handleSolveClicked() {
@@ -486,8 +490,7 @@ function handleSolveClicked() {
         if (stopType == "Absolute Relative Error") {
             Jacobi_IterationError(equationArray, equations_value, size, stopValue, intialArray);
         } else {
-            console.log("here");
-            createTable(Jacobi_IterationNum(equationArray, equations_value, size, stopValue, intialArray), stopValue);
+            Jacobi_IterationNum(equationArray, equations_value, size, stopValue, intialArray);
         }
     } else if (methodType == "Gauss Elimination") {
         console.log(171);
